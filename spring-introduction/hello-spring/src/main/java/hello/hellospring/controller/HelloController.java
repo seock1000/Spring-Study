@@ -25,10 +25,25 @@ public class HelloController {
         return "hello-template";
     }
 
-    // api 방식
-    @GetMapping("hello-string")
+    // api 방식 : return 객체를 json 형식으로 전달
+    // @ResponseBody : HttpMessageConverter로 전달 -> 객체면 JsonCoverter, 문자면 StringConverter가 변환
+    @GetMapping("hello-api")
     @ResponseBody
-    public String helloString(@RequestParam("name") String name) {
-        return "hello " + name; // html 양식 없이 문자 그대로 전달
+    public Hello helloApi(@RequestParam("name") String name) {
+        Hello hello = new Hello();
+        hello.setName(name);
+        return hello;
+    }
+
+    static class Hello {
+        private String name;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
     }
 }
