@@ -106,3 +106,20 @@ Spring 핵심 원리 - 기본
 - IoC 컨테이너 or DI 컨테이너 : 객체를 생성하고 관리하면서 의존관계를 연결해주는 것
 - 최근에는 주로 DI 컨테이너로 칭함
 - 스프링 외에도 여러 DI 컨테이너 존재
+
+
+<br />
+<br />
+<br />
+<hr />
+
+### Spring Container
+
+
+- 스프링 컨테이너 == ApplicationContext
+- ApplicationContext : 인터페이스로 어노테이션 기반, XML 기반 등 설정 방식을 따르는 구현체가 존재
+- 정확히는 BeanFactory와 ApplicationContext로 구분하지만, 일반적으로는 BeanFactory를 직접 사용하는 경우가 거의 없기 때문에 ApplicationContext를 지칭
+- 스프링 컨테이너 생성
+    1. 구성 정보에 따라, 스프링 컨테이너에 Spring Bean을 저장 (** 빈 이름이 중복되면 문제 발생 가능)
+    2. 구성 정보에 따라, 스프링 빈 사이의 의존관계 설정
+    - 즉, 스프링 빈을 생성하는 단계와 의존관계를 주입하는 단계로 나뉨
