@@ -123,3 +123,16 @@ Spring 핵심 원리 - 기본
     1. 구성 정보에 따라, 스프링 컨테이너에 Spring Bean을 저장 (** 빈 이름이 중복되면 문제 발생 가능)
     2. 구성 정보에 따라, 스프링 빈 사이의 의존관계 설정
     - 즉, 스프링 빈을 생성하는 단계와 의존관계를 주입하는 단계로 나뉨
+
+##### BeanFactory
+- 스프링 컨테이너의 최상위 인터페이스
+- Bean을 관리하고 조회하는 역할 : getBean 메서드 제공
+
+##### ApplicationContext
+- BeanFactory를 상속받아 제공
+- 이외에도 여러 application 개발에 필요한 부가기능을 상속받아 제공
+    - MessageSource를 활용한 국제화 기능 : 국가에 따른 언어로 제공
+    - EnviromentCapable : 로컬, 개발, 운영 등을 구분해서 처리
+    - ApplicationEventPublisher : 애플리케이션 이벤트를 발행, 구독하는 모델 지원
+    - ResourceLoader : 파일, 클래스패스, 외부 등에서 리소스를 편리하게 조회
+- 따라서, BeanFactory를 직접 사용하는 일은 거의 없고, 보통 ApplicationContext를 사용
