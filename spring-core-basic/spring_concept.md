@@ -136,3 +136,63 @@ Spring 핵심 원리 - 기본
     - ApplicationEventPublisher : 애플리케이션 이벤트를 발행, 구독하는 모델 지원
     - ResourceLoader : 파일, 클래스패스, 외부 등에서 리소스를 편리하게 조회
 - 따라서, BeanFactory를 직접 사용하는 일은 거의 없고, 보통 ApplicationContext를 사용
+
+
+<br />
+<br />
+<hr />
+
+###  설정 형식 지원
+
+1. AnnotationConfigApplicationContext
+    - annotation 기반 자바코드로 설정
+    - new AnnotationConfigApplicationContext(설정클래스.class)
+
+2. GenericXmlApplicationContext
+    - 최근에는 스프링 부트를 사용하여 잘 사용 X
+    - GenericApplicationContext를 사용하면서 xml로 된 설정 정보를 전달
+
+<br />
+<br />
+<hr />
+
+### BeanDefinition
+
+- 다양한 설정 형식 지원이 가능한 이유 : BeanDefinition으로 추상화
+- xml 또는 자바 코드를 읽어서 BeanDefinition을 만듦
+- 따라서, BeanDefinition을 빈 설정 메타정보라고 함 -> 스프링 컨테이너는 메타정보를 기반으로 스프링 빈을 구성
+
+<br />
+<br />
+<hr />
+
+### 싱글톤 컨테이너
+
+- 스프링은 기업용 온라인 서비스 기술을 지원하기 위해 탄생 + 대부분 스프링 어플리케이션은 웹 어플리케이션 -> 여러 고객이 동시에 요청
+- 싱글톤 패턴 : 객체를 미리 생성해두고, 필요한 경우 생성된 새롭게 객체를 생성하는 것이 아닌 생성해놓은 객체를 호출하여 사용
+    - 요청에 따라 객체 생성 X -> 비용 절감
+    - 필요한 코드의 양이 많아짐, 클라이언트가 구체 클래스에 의존하면서 DIP 위반, OCP 위반 가능성이 높아지는 등 여러 문제점 존재
+- 스프링 컨테이너는 이러한 문제점을 해결하면서, 객체 인스턴스를 싱글톤으로 관리
+    - 스프링 컨테이너가 싱글톤 컨테이너 역할
+    - 싱글톤 패턴을 위한 코드 불필요
+    - DIP, OCP, private 생성자 등에서 자유롭게 싱글톤 사용 가능
+- 따라서, 스프링을 사용하면 싱글톤으로 존재하는 객체를 호출하여 사용
+    - 스프링의 기본 빈 등록 방식은 싱글톤이나, 다른 방식도 사용가능. But, 주로 싱글톤만 사용하긴 한다~
+
+
+##### 주의점
+- 싱글톤 패턴, 싱글톤 컨테이너와 같이 객체 인스턴스를 하나만 생성해서 공유하는 싱글톤 방식은 <u>stateless로 설계</u>해야 함!
+    - 특정 클라이언트에 의존적인 field X
+    - 특정 클라이언트가 값을 변경할 수 있는 field X
+    - 가급적 읽기만 가능해야
+    - field 대신 공유되지 않는 자원을 사용
+
+<br />
+<br />
+<hr />
+
+### @Configuration
+
+- config 코드에 new를 사용하지만 싱글톤 패턴은 깨지지 않음 why?
+- 바이트 코드 조작 라이브러리(CGLIB) 사용하여 설정 정보 클래스를 상속받은 임의의 클래스를 만들고 스프링 빈으로 등록
+- Bean이 붙은 메서드에 대해 이미 spring bean이 존재한다면 존재하는 bean을 반환하고, 없으면 생성 -> 싱글톤 보장
