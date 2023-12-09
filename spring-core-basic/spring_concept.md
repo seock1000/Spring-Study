@@ -381,4 +381,13 @@ Spring 핵심 원리 - 기본
     - destoryMethod 속성에는 default로 '(inferred)'(추론)으로 등록
     - 대부분 라이브러리는 close, shutdown을 종료 메서드 이름으로 사용 
     - 추론 기능은 close, shutdown이라는 이름의 메서드를 자동으로 호출 -> 이름 그대로 추론!
-    
+
+- @PostContstruct, @PreDestroy
+    - @PostContstruct : 초기화 메서드
+    - @PreDestory : 종료 메서드
+    - 가장 권장되는 방법
+    - 스프링 종속적인 기술 X, 자바 표준 기술 -> 스프링이 아닌 컨테이너에서도 동작
+    - @ComponentScan에 잘 어울리는 방식
+    - 유일한 단점
+        - 코드를 수정해야 하기 때문에 외부 라이브러리에 적용 불가
+        - 외부 라이브러리를 초기화, 종료해야 할 때는 @Bean의 기능 사용 권장
