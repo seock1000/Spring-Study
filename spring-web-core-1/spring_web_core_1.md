@@ -186,4 +186,20 @@
 - 중요 포인트!
     - HttpServletRequest, HttpServletResponse는 결국 HTTP 메세지를 편리하게 사용하도록 도와주는 객체!
     - 따라서, HTTP 메세지를 먼저 이해하고 사용하는게 중요!
-    
+
+##### HTTP 요청 데이터
+- HTTP 요청 메세지를 통해 서버로 데이터를 전달하는 3가지 방법
+
+    1. GET + 쿼리 파라미터
+        - 예시 : /url?username=hello&age=20
+        - 메세지 바디 없이 URL에 쿼리 파라미터를 포함하여 전달
+        - 검색 필터, 페이징 등에서 주로 사용
+    2. POST + HTML Form
+        - content-type : application/x-wwww-form-urlencoded
+        - 메시지 바디에 쿼리 파라미터 형식으로 전달 : username=hello&age=20
+        - 회원가입, 상품 주문 등에 주로 사용
+        - HTTP message body에 데이터를 담아서 요청
+            - HTTP API에 주로 사용
+            - JSON, XML, TEXT 등의 정보를 담아 요청
+            - 데이터 형식은 주로 JSON 사용
+            - POST, PUT, PATCH 등 사용
