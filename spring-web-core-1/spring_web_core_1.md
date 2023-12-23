@@ -169,3 +169,21 @@
     - 내추럴 템플릿 : HTML의 모양 유지 + 뷰 템플릿 적용 가능
     - 스프링 MVC와 강력한 기능 통합
     - 성능은 프리마커, 벨로시티가 더 빠르나, 스프링을 쓴다면 타임리프 추천!
+
+
+##### HttpServletRequest
+
+- 역할
+    - Http 요청 메세지를 직접 파싱해서 사용해도 되지만 불편
+    - 서블릿은 Http 요청 메세지를 편리하게 사용할 수 있게 메세지를 파싱하여 결과를 HttpServletRequest 객체에 담아 제공
+- 부가 기능
+    - 임시 저장소 기능
+        - HTTP 요청의 시작부터 끝까지 유지
+        - 저장 : request.setAttribute(name, value)
+        - 조회 : request.getAttribute(name)
+    - 세션 관리 기능
+        - request.getSession(create: true)
+- 중요 포인트!
+    - HttpServletRequest, HttpServletResponse는 결국 HTTP 메세지를 편리하게 사용하도록 도와주는 객체!
+    - 따라서, HTTP 메세지를 먼저 이해하고 사용하는게 중요!
+    
