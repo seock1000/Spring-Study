@@ -194,12 +194,83 @@
         - 예시 : /url?username=hello&age=20
         - 메세지 바디 없이 URL에 쿼리 파라미터를 포함하여 전달
         - 검색 필터, 페이징 등에서 주로 사용
+        - HttpServletRequest가 제공하는 메서드를 통해 쿼리 파라미터 조회 가능
     2. POST + HTML Form
         - content-type : application/x-wwww-form-urlencoded
         - 메시지 바디에 쿼리 파라미터 형식으로 전달 : username=hello&age=20
+            - 형식이 쿼리 파라미터와 똑같기 때문에 쿼리 파라미터를 꺼내는 메서드(request.getParameter)로 꺼낼 수 있음
+            - 클라이언트 입장에선 방식에 차이가 있지만, 서버에선 둘의 형식이 동일
         - 회원가입, 상품 주문 등에 주로 사용
         - HTTP message body에 데이터를 담아서 요청
             - HTTP API에 주로 사용
             - JSON, XML, TEXT 등의 정보를 담아 요청
             - 데이터 형식은 주로 JSON 사용
             - POST, PUT, PATCH 등 사용
+
+##### HttpServletResoponse 
+- 역할
+    1. HTTP 응답 메세지 생성
+        - HTTP 응답코드 지정
+        - 헤더, 바디 생성
+    2. 편의기능 제공
+        - Content-Type
+        - 쿠키
+        - Redirect
+
+##### HTTP 응답 데이터
+
+- HTTP 응답 메세지는 주로 다음의 내용을 담아 전달
+    1. 단순 텍스트
+        - content-type을 text/plain으로 지정
+    2. HTML
+        - content-type을 text/html로 지정
+    3. HTTP API - Message body : JSON
+
+
+##### 템플릿 엔진
+- 서블릿과 자바 코드 만으로 HTML을 생성하는 것이 가능하지만, 복잡하고 비효율적
+    - 자바 코드에 HTML 생성 작업이 포함돼서
+- HTML 문서에서 필요한 곳만 코드를 적용하는 것이 더 편리
+- 때문에 템플릿 엔진 등장
+- 종류
+    - JSP, Thymeleaf, Freemarker, Velocity 등
+
+##### JSP
+- build.gradle 추가
+    ```
+        implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+        implementation 'jakarta.servlet:jakarta.servlet-api' // 스프링부트 3.0 이상
+        implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api' // 스프링부트 3.0 이상
+        implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl' // 스프링부트 3.0 이상
+    ```
+- 자바 코드 사용 가능
+    - <% ~ %> 부분에 자바 코드 사용
+- 한계
+    - view와 비즈니스 로직이 섞여 있음
+        - 파일이 커지고 유지보수 어려움
+        - JSP에 너무 많은 역할
+
+##### MVC 패턴
+- 서블릿, JSP의 한계
+    - 하나의 서블릿이나 JSP 만으로 비즈니스 로직과 렌더링까지 모두 처리
+        - 너무 많은 역할 + 유지보수의 어려움
+    - 변경의 라이프 사이클
+        - 분리에서 변경 주기를 고려하는 것이 좋음
+        - UI와 비즈니스 로직의 수정은 각각 다르게 발생하는 경우가 많고 대게 서로에게 영향을 주지 않음
+    - 기능 특화
+        - JSP와 같은 뷰 템플릿은 화면의 렌더링에 최적화 되어 있기 때문에 해당 부분의 업무만 담당하는 것이 효과적
+
+- MVC 패턴
+    - 하나의 서블릿이나 JSP로 처리하던 것을 Controller와 View 영역으로 역할을 나눈 패턴
+    - 컨트롤러 : HTTP 요청을 받아 파라미터를 검증 + 비즈니스 로직 실행 + 뷰에 전달할 결과 데이터를 모델에 담아 뷰에 전달
+    - 모델 : 뷰에 출력할 데이터를 담아둠
+    - 뷰 : 모델에 담겨있는 데이터를 사용하여 화면을 그리는 일에 집중(HTML 생성 등)
+    - WEB-INF 하위 자원은 컨트롤러를 거쳐 내부에서 forward를 통해서만 조회 가능
+    - 한계
+        - 중복 코드 발생 - forward
+            - View로 이동하기 위한 코드가 중복 호출됨
+        - ViewPath에 중복
+            - 더해서 다른 뷰로 변경한다면 전체코드가 변경됨
+        - 공통처리의 어려움
+            - 공통기능을 메서드로 뽑더라도 해당 메서드를 항상 호출해야 함
+        - 프론트 컨트롤러 패턴으로 문제 해결 가능
