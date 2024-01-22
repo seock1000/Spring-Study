@@ -16,6 +16,6 @@ public class OldController implements Controller {
     @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         System.out.println("OldController.handleRequest");
-        return null;
+        return new ModelAndView("new-form"); // 컨트롤러는 호출되나 뷰가 없어서 오류 -> application.properties 파일에 prefix, suffix 설정 시 자동으로 ViewResolver가 view name 변환
     }
 }
