@@ -282,3 +282,24 @@
             - 프론트 컨트롤러 서블릿 하나로 클라이언트의 요청 받음
             - 프론트 컨트롤러가 요청에 맞는 컨트롤러를 찾아 호출
             - 프론트 컨트롤러를 제외한 나머지 컨트롤러는 서블릿 사용 필요 X
+
+##### 스프링 MVC
+    - 구조
+        1. DispatcherServlet
+            - 스프링 MVC의 프론트 컨트롤러
+            - 부모 클래스에서 HttpServlet을 상속받아 사용
+            - 스프링 부트는 DispatcherServlet을 서블릿으로 자동으로 등록하며 모든 경로(urlPatterns="/")에 대해 매핑 (더 자세한 경로의 우선순위가 높으므로, 기존에 등록한 서블릿도 함께 동작)
+            - 요청 흐름
+                1. 서블릿 호출 -> HttpServlet이 제공하는 service() 메서드 호출
+                2. DispatcherServlet의 부모인 FrameworkServlet에 service() 오버라이드
+                3. FrameworkServle.service()를 시작으로 여러 메서드 호출되면서 DispatcherServlet.doDispatch() 호출
+                    - doDispatch() : 핸들러 조회 -> 핸들러 어댑터 조회 -> 핸들러 어댑터를 통해 핸들러 실행 -> ModelAndView 반환 ->  reder() 호출 및 뷰 렌더링
+        2. HandlerMapping
+            - 요청 url에 매핑된 핸들러 정보 저장
+        3. HandlerAdapter
+            - 핸들러 실행을 위한 어댑터
+            - 핸들러를 호출하고 핸들러가 반환하는 정보를 ModelAndView로 변환하여 반환
+        4. ModelAndView
+            - 데이터(Model)와 뷰 정보(View)를 담는 객체
+        5. ViewResolver
+        6. View
