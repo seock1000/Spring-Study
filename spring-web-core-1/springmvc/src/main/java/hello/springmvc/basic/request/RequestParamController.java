@@ -89,8 +89,8 @@ public class RequestParamController {
      * MulitValueMap으로도 조회 가능 -> 하나의 키에 여러 값이 있을 때
      */
     @ResponseBody
-    @RequestMapping("/request-param-default")
-    public String requestParamDefault(@RequestParam Map<String, Object> paramMap) {
+    @RequestMapping("/request-param-map")
+    public String requestParamMap(@RequestParam Map<String, Object> paramMap) {
         log.info("username={}, age={}", paramMap.get("username"), paramMap.get("age"));
         return "ok";
     }
