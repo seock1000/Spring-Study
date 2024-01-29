@@ -321,9 +321,10 @@
     - 어노테이션 기반 핸들러(@RequestMapping)를 처리하는 핸들러 어댑터(RequestMappingHandlerAdapter)를 통해 작동
         - ArgumentResolver
             - 어노테이션 기반 컨트롤러는 다양한 파라미터(HttpServletRequest, Model, @RequestParam, @ModelAttribute, @ReqeustBody 등)
-            - RequestMappingHandlerAdapter가 ArgumentResolver를 호춣하여 파라미터의 객체를 생성하고, 파라미터로 넘길 객체가 세팅되면 컨트롤러를 호출
+            - RequestMappingHandlerAdapter가 ArgumentResolver를 호춣하여 파라미터의 객체를 생성하고, 파라미터로 넘길 객체가 세팅하여 컨트롤러를 호출
         - ReturnValueHandler
             - String, ModelAndView, @ResponseBody, ResponseEntity 등 응답 값을 변환하고 반환
         - ArgumentResolver와 ReturnValueHandler가 HTTP 메세지 컨버터를 호출하여 사용
+            - 즉, 추가적으로 HTTP 메세지의 변환이 필요할 때 호출하는 녀석이 HTTP 메세지 컨버터!
             - 요청 : @RequestBody를 처리하는 ArgumentResolver, HttpEntity를 처리하는 ArgumentResolver
             - 응답 : @ResponseBody와 HttpEntity를 처리하는 ReturnValueHandler
