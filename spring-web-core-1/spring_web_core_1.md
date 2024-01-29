@@ -303,3 +303,27 @@
             - 데이터(Model)와 뷰 정보(View)를 담는 객체
         5. ViewResolver
         6. View
+
+##### HTTP 메세지 컨버터
+    - @ResponseBody 사용 시
+        - HTTP body에 문자 내용 직접 반환
+        - viewResolver 대신 HttpMessageConverter 동작
+            - 기본 문자 처리 : StringHttpMessageConverter 동작
+            - 기본 객체 처리 : MappingJackson2HttpMessageConverter 동작
+            - 기타 byte 처리 등을 위한 컨버터도 기본 등록되어 있음
+            - 응답은 클라이언트의 HTTP Accept 헤더와 서버의 컨트롤러 반환 타입 정보 등을 조합하여 선택
+    - 스프링 MVC는 다음의 경우 HTTP 메세지 컨버터 적용
+        - 요청 : @RequestBody, HttpEntity(RequestEntity)
+        - 응답 : @ResponseBody, HttpEntity(ResponseEntity)
+        - HTTP 요청, 응답 둘 다 사용 => 양방향 사용
+            - canRead(), canWrite() : 메서드로 해당 클래스타입 + 미디어타입 지원하는지 체크
+            - read(), write() : 실제 read, write 메서드
+    - 어노테이션 기반 핸들러(@RequestMapping)를 처리하는 핸들러 어댑터(RequestMappingHandlerAdapter)를 통해 작동
+        - ArgumentResolver
+            - 어노테이션 기반 컨트롤러는 다양한 파라미터(HttpServletRequest, Model, @RequestParam, @ModelAttribute, @ReqeustBody 등)
+            - RequestMappingHandlerAdapter가 ArgumentResolver를 호춣하여 파라미터의 객체를 생성하고, 파라미터로 넘길 객체가 세팅되면 컨트롤러를 호출
+        - ReturnValueHandler
+            - String, ModelAndView, @ResponseBody, ResponseEntity 등 응답 값을 변환하고 반환
+        - ArgumentResolver와 ReturnValueHandler가 HTTP 메세지 컨버터를 호출하여 사용
+            - 요청 : @RequestBody를 처리하는 ArgumentResolver, HttpEntity를 처리하는 ArgumentResolver
+            - 응답 : @ResponseBody와 HttpEntity를 처리하는 ReturnValueHandler
