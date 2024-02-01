@@ -67,10 +67,15 @@ public class BasicItemController {
         return "basic/item";
     }
 
-    @PostMapping("/add")
     public String addItemV4(Item item) {
         itemRepository.save(item);
-        return "basic/item";
+        return "basic/item"; // 뷰는 이게 뜨지만, 새로고침 시 post 요청 재전송
+    }
+
+    @PostMapping("/add")
+    public String addItemV5(Item item) {
+        itemRepository.save(item);
+        return "redirect:/basic/items/" + item.getId(); // PRG 패턴, but 인코딩 해서 넣어야함
     }
 
     @GetMapping("/{itemId}/edit")
@@ -83,7 +88,7 @@ public class BasicItemController {
     @PostMapping("/{itemId}/edit")
     public String edit(@PathVariable Long itemId, @ModelAttribute Item item) {
         itemRepository.update(itemId, item);
-        return "redirect:/basic/items/{itemId}";
+        return "redirect:/basic/items/{itemId}"; // Post 재요청 방지 PRG(POST, Redirect Get) 패턴
     }
 
     /**
