@@ -42,3 +42,12 @@
                 - ${session.sessionData}
             - 스프링 빈 접근
                 - ${@helloBean.hello('Spring!')}
+    4. link
+        - 단순 url
+            - th:href="@{/hello}
+        - query parameter
+            - th:href="@{/hello(param1=${param1}, param2=${param2})}
+        - path variable
+            - th:href="@{/hello/{param1}/{param2}(param1=${param1}, param2=${param2})}
+        - path variable + query parameter
+            - th:href="@{/hello/{param1}(param1=${param1}, param2=${param2})}
