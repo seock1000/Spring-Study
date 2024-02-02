@@ -32,3 +32,13 @@
                     - ${userMap['userA'].username} = userA
                     - ${userMap['userA']['username']} = userA
                     - ${userMap['userA'].getUsername()} = userA
+    3. 기본 객체
+        - request, response, session, servletContext 객체는 스프링 부트 3.0부터 제공하지 않음
+        - ${#locale} : 기본 객체 제공
+        - 편의 객체
+            - param : http 요청 파라미터 접근
+                - ${param.paramData}
+            - session : http 세션 접근
+                - ${session.sessionData}
+            - 스프링 빈 접근
+                - ${@helloBean.hello('Spring!')}
