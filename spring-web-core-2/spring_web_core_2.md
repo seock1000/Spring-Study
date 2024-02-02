@@ -90,4 +90,16 @@
         - checked 처리
             - html checked 속성은 check라는 속성만 있어도(=값을 false로 해도) 체크 처리
             - th:checked를 false로 하면 checked 속성을 아예 안넣음
+    8. 반복
+        - th:each로 사용
+        - ```<tr th:each="user : ${users}">```
+        - 두번째 파라미터로 반복 상태에 대한 정보 받을 수 있음
+        - 생략하고 지정 변수명 + Stat(네이밍 룰)로 받을 수 있음
+        - ```<tr th:each="user , userStat : ${users}">``` -> userStat에 반복 상태 정보
+            - index : 0부터 시작하는 순서 값
+            - count : 1부터 시작하는 순서 값
+            - size : 전체 사이즈
+            - event, odd : 홀수, 짝수 여부를 boolean으로
+            - first, last : 처음, 마지막 여부를 boolean으로
+            - current : 현재 객체
 
