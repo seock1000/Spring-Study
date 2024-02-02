@@ -51,3 +51,15 @@
             - th:href="@{/hello/{param1}/{param2}(param1=${param1}, param2=${param2})}
         - path variable + query parameter
             - th:href="@{/hello/{param1}(param1=${param1}, param2=${param2})}
+    5. 리터럴
+        - 소스 코드상 고정된 값
+        - 작은 따옴표로 감싸야 하나, 공백없이 쭉 이어지는 문자는 토큰으로 인지하므로 감싸지 않아도 됨
+        - 종류
+            - 문자 : 'hello'
+            - 숫자 : '10'
+            - 불린 : 'true'
+            - null : 'null'
+        - 리터럴 대체 문법
+            - 공백이 존재하는 문자열에서 작은 따옴표 대신 다음과 같이 사용 가능
+            - |hello ${data}|
+        
