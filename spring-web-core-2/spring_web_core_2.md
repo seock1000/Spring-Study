@@ -102,4 +102,9 @@
             - event, odd : 홀수, 짝수 여부를 boolean으로
             - first, last : 처음, 마지막 여부를 boolean으로
             - current : 현재 객체
-
+    9. 조건부 평가
+        - if, unless : if-else와 유사
+            - 조건 불만족하면 해당 태그 전체 날림
+        - switch
+            - switch 문이랑 동일한 구조
+            - ```* == default```
