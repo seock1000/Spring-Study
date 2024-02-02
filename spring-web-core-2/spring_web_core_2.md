@@ -73,3 +73,21 @@
         - No operation
             - ```<span th:text="${data}?: _">데이터가 없습니다.</span>```
             - data에 값이 없으면 타임리프 연산을 수행하지 않음 -> 데이터가 없습니다. 출력
+    7. 타임리프 속성 값 설정
+        - th:* 로 속성을 적용하면 기존 속성을 대체, 없는 속성이면 새로 만듦
+        - 속성 치환
+            - name="mock" th:name="user" -> 타임리프를 거치면 name 속성이 user로 치환됨
+        - 속성 추가
+            - th:attrappend
+                - 해당 속성의 뒤에 추가
+                - class="text" th:attrappend="class=' large'" -> 결과 class="text large"
+            - th:attrprepend
+                - 해당 속성의 앞에 추가
+                - class="text" th:attrprepend="class='large '" -> 결과 class="large text"
+            - th:classapeend
+                - 띄어쓰기 안해도 알아서 처리해서 뒤에 붙여줌
+                - class="text" th:classappend="class='large'" -> 결과 class="text large"
+        - checked 처리
+            - html checked 속성은 check라는 속성만 있어도(=값을 false로 해도) 체크 처리
+            - th:checked를 false로 하면 checked 속성을 아예 안넣음
+
