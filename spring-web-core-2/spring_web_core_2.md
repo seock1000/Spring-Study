@@ -176,3 +176,14 @@
 
                 </script>
                 ```
+    13. 템플릿 조각
+        - header, footer 등 공통으로 사용되는 부분을 템플릿 조각으로 만들고 불러와 사용 가능
+        - ```th:fragment="조각이름"```으로 템플릿 조각 지정
+        - th:insert, th:replace로 불러와서 사용
+            - th:insert="~{템플릿조각경로(template/fragment/footer) :: fragment이름}" : 해당 속성이 적용된 태그 내부에 템플릿 조각 삽임
+            - th:replace="~{템플릿조각경로(template/fragment/footer) :: fragment이름}" : 해당 속성이 적용된 태그를 템플릿 조각으로 대체 -> 속성이 적용된 태그는 사라짐
+        - 파라미터 사용
+            - fragment 이름에 괄호로 파라미터 포함 가능
+                - th:fragment="조각이름 (파라미터이름, 파라미터이름)"
+                - th:replace="~{템플릿조각경로(template/fragment/footer) :: fragment이름 (파라미터1, 파라미터2)}"
+        
