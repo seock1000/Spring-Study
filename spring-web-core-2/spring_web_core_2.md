@@ -123,3 +123,56 @@
         - ```<th:block>```
         - 블록 태그 내부의 요소 모두 Loop를 돌리고 싶을 때 등 일반적인 반복으로 해결하기 어려운 경우 사용
         - 랜더링 시에는 사라짐
+    12. 자바스크립트 인라인
+        - 자바스크립트에서 타임리프를 편하게 사용하기 위한 기능
+        - ```<script th:inline="javascript">```
+        - 사용하지 않는 경우, 자바스크립트의 문법에 맞춰 전달되는 타임리프 값을 바꿔줘야 하는데, 이러한 부분을 알아서 처리해줌
+        - 문제가 될 수 있는 문자 포함하는 경우 자동 자바 스크립트에 맞게 escape 처리 : ex) " -> /"
+        ```
+        <!-- 자바스크립트 인라인 사용 전 -->
+        <script>
+        var username = UserA; // 문자로 처리되지 않음 -> 에러
+        var age = 10;
+
+        //자바스크립트 내추럴 템플릿
+        var username2 = /*UserA*/ "test username"; // 타임리프 랜더링 안됨
+
+        //객체
+        var user = BasicController.User(username=UserA, age=10); // 객체를 toString()으로 처리 -> 에러
+        </script>
+
+        <!-- 자바스크립트 인라인 사용 후 -->
+        <script>
+        var username = "UserA"; // 문자로 처리
+        var age = 10;
+
+        //자바스크립트 내추럴 템플릿
+        var username2 = "UserA"; // 타임리프 랜더링돼서 주석에 있는 값으로 랜더링
+
+        //객체
+        var user = {"username":"UserA","age":10}; // 객체를 json으로 처리
+        </script>
+        ```
+        - 자바스크립트 인라인 each
+            - script 내에서 loop를 돌리고 싶을때
+                ```
+                <script th:inline="javascript">
+
+                [# th:each="user, stat : ${users}"]
+                var user[[${stat.count}]] = [[${user}]];
+                [/]
+
+                </script>
+                ```
+                결과
+                ```
+                <script>
+
+  
+                var user1 = {"username":"UserA","age":10};
+                var user2 = {"username":"UserB","age":20};
+                var user3 = {"username":"UserC","age":30};
+  
+
+                </script>
+                ```
