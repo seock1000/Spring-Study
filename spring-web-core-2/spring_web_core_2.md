@@ -186,4 +186,3 @@
             - fragment 이름에 괄호로 파라미터 포함 가능
                 - th:fragment="조각이름 (파라미터이름, 파라미터이름)"
                 - th:replace="~{템플릿조각경로(template/fragment/footer) :: fragment이름 (파라미터1, 파라미터2)}"
-        
