@@ -186,3 +186,18 @@
             - fragment 이름에 괄호로 파라미터 포함 가능
                 - th:fragment="조각이름 (파라미터이름, 파라미터이름)"
                 - th:replace="~{템플릿조각경로(template/fragment/footer) :: fragment이름 (파라미터1, 파라미터2)}"
+
+##### 타임리프 스프링 통합
+- 스프링 통합으로 추가되는 기능
+    - SpringEL 문법 통합
+    - 스프링 빈 호출 지원
+    - 폼 관리 추가 속성
+        - th:object :  기능 강화, 폼 커맨드 객체 선택
+        - th:field, th:errors, th:errorclass
+    - 폼 컴포넌트 기능
+        - checkbox, radio button, List 등 편리하게 사용할 수 있는 기능 지원
+    - 스프링 메시지, 국제화 기능의 편리한 통함
+    - 스프링 검증, 오류 처리 통합
+    - 스프링 변환 서비스 통합
+    - 타임리프 템플릿 엔진, 뷰 리졸버 등 빈 등록 절차는 gardle을 통해 라이브러리를 다운로드 받고, 스프링 부트가 빈으로 자동 등록
+    - 타임리프 설정 변경 필요시 -> application.properties에서 설정 가능
