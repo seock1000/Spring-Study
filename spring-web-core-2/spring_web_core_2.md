@@ -231,3 +231,23 @@
         3. Validator 사용
     - Errors 인터페이스를 상속받는 인터페이스로 Errors를 사용해도 되지만, Errors는 단순한 오류 저장, 조회 기능 제공하므로 기능이 좀 부족
 
+- FieldError
+    - 생성자
+        - rejectedValue가 포함된 생성자와 포함되지 않은 생성자로 두 개의 생성자 제공
+        - 파라미터 목록
+            1. objectName : 오류가 발생한 객체 이름(requried)
+            2. field : 오류 필드(requried)
+            3. rejectedValue : 사용자가 입력한 거절된 값
+            4. bindingFailure : 타입 오류와 같은 바인딩 실패인지, 검증 실패인지의 구분 값
+            5. codes : 메시지 코드
+            6. arguments : 메시지에서 사용하는 인자
+            7. defaultMessage : 기본 오류 메시지(requried)
+    - 사용자 입력값 유지
+        - type error로 binding 실패 시
+            - type이 틀렸기 때문에 Model에 저장이 불가능
+            - 스프링이 binding 실패하는 때에 BindingResult에 FieldError 생성하여 등록하여 view에 사용자 입력값 유지
+        - 검증 실패 시
+            - FieldError가 제공하는 사용자 입력 값 저장 기능(rejectedValue에 저장)을 사용하여 view에 입력 값 유지
+    
+    - thymeleaf가 입력 값을 유지하는 매커니즘
+        - th:field : 정상 상황에는 모델 객체의 값을 사용, 오류 발생 시 FieldError에서 보관한 값을 사용하여 출력
