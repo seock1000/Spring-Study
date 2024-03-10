@@ -213,3 +213,21 @@
     - messages_en.propeties, messages_ko.propeties와 같이 언어별로 파일을 생성하여 관리
     - accept-language 헤더, 사용자가 직접 언어 선택 또는 쿠키 등을 사용하여 처리
     - 스프링은 기본적으로 메시지와 국제화 기능 제공! 타임리프도 해당 기능을 통합하여 제공!
+
+
+##### Validation
+
+- BindingResult
+    - 스프링이 제공하는 검증 오류 보관 객체 -> 검증 오류가 발생하면 해당 객체에 보관
+        - ex)  bindingResult.addError(new FieldError("item", "itemName", "상품 이름은 필수입니다."));
+    - BindingResult는 검증 대상의 파라미터의 순서 상 바로 뒤에 위치시켜야 함
+    - BidningResult 결과는 model에 자동으로 포함돼서 넘어감
+    - ModelAttribute에 바인딩 시 type 오류 발생 시 (integer에 문자값 등)
+        - BindingResult가 없으면 오류페이지 출력
+        - BindingResult가 있으면 오류 정보를 BindingResult에 담아서 컨트롤러 정상 호출 -> 개발자가 뭔 생각이 있겠구나~ 하면서
+    - BindingResult 검증 오류 적용 3가지 방법
+        1. @ModelAttribute의 객체에 타입 오류 등 바인딩 실패시 스프링이 FieldError 생성하여 BindingResult에 등록
+        2. 비즈니스 에러 등을 개발자가 직접 bindingError.addError()메서드로 등록
+        3. Validator 사용
+    - Errors 인터페이스를 상속받는 인터페이스로 Errors를 사용해도 되지만, Errors는 단순한 오류 저장, 조회 기능 제공하므로 기능이 좀 부족
+

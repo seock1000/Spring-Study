@@ -46,6 +46,7 @@ public class ValidationItemControllerV2 {
     }
 
     // BindingResult : model을 binding 한 결과 저장, 순서 중요(@ModelAttribute 다음)
+    // BindingResult가 있으면 ModelAttribute binding 시 type error가 있어도 개발자가 뭔가 생각이 있구나~ 하면서 컨트롤러는 호출 || 없으면, 컨트롤러 호출되지 않고 400 오류 페이지 출력
     @PostMapping("/add")
     public String addItemV1(@ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
