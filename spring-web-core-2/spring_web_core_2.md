@@ -251,3 +251,8 @@
     
     - thymeleaf가 입력 값을 유지하는 매커니즘
         - th:field : 정상 상황에는 모델 객체의 값을 사용, 오류 발생 시 FieldError에서 보관한 값을 사용하여 출력
+    - codes, arguments
+        - 오류 발생시 오류 코드로 메시지 탐색 가능
+        - 오류 코드를 중앙화하여 관리
+        - codes : properties 파일에 선언된 경로 String 배열로 기입
+        - arguments : 에러 메세지에 파라미터로 전달되는 값 Object 배열로 기입
