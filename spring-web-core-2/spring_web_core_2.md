@@ -291,3 +291,8 @@
         - MessageCodeResolver는 required.item.itemName 처럼 구체적인 것을 먼저 만들고, required 처럼 덜 구체적인 것을 나중에 만듦
         - 메세지 관련된 공통 전략을 편리하게 도입 가능
         - 중요한 메세지는 필요할 때 구체적으로 적어서 사용하는 방식이 효과적
+
+    - typeMismatch
+        - 전달받은 데이터의 type이 맞지 않는 경우 스프링이 자동으로 만들어주는 오류 코드
+        - errors.properties에 typeMismatch로 오류 메세지 세팅해주는 것으로 핸들링 가능
+        - 소스코드를 건들지 않고 원하는 메시지를 단계별 설정 가능
