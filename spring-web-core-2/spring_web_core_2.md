@@ -256,3 +256,38 @@
         - 오류 코드를 중앙화하여 관리
         - codes : properties 파일에 선언된 경로 String 배열로 기입
         - arguments : 에러 메세지에 파라미터로 전달되는 값 Object 배열로 기입
+
+###### MessageCodesResolver
+    ```
+        ## 상세한 에러 코드
+        required.item.itemName=상품 이름은 필수입니다.
+        range.item.price=가격은 {0} ~ {1} 까지 허용입니다.
+        max.item.quantity=수량은 최대 {0} 까지 허용합니다.
+        totalPriceMin=가격 * 수량의 합은 {0}원 이상이어야 합니다. 현재 값 = {1}
+
+        ## 범용성 있는 에러 코드 (오류 코드의 상세함에 단계를 줄 수 있음)
+        required=필수 값 입니다.
+        range=범위는 {0} ~ {1} 까지 허용합니다.
+        max=최대 {0} 까지 허용합니다.
+    ```
+
+    - 상세한 에러 코드(객체명과 필드명을 조합한 메시지)가 있는지 먼저 탐색 후, 없으면 범용성 있는 에러 코드 사용
+    - 스프링은 MessageCodesResolver를 통해 이러한 기능 지원
+    - 검증 오류 코드로 메시지 코드들을 생성
+        - 객체오류 메시지 생성 규칙
+            - error code + "." + object name
+            - error code
+        - 필드 오류 메시지 생성 규칙
+            - error code + "." + object name + "." + field
+            - error code + "." + field
+            - error code + "." + field type
+            - error code
+        - 즉, 복잡한 메시지부터 단순한 메시지 순서로 검토 -> 복잡할수록 우선순위가 높음
+    
+    - reject(), rejectValue는 내부에서 MessageCodesResolver를 사용 -> 메시지 코드 생성
+    - FieldError, ObjectError의 생성자를 보면 여러 개의 에러 코드를 가질 수 있음 -> 생성된 순서대로 오류 코드를 보관
+
+    - 오류 코드 관리 전략
+        - MessageCodeResolver는 required.item.itemName 처럼 구체적인 것을 먼저 만들고, required 처럼 덜 구체적인 것을 나중에 만듦
+        - 메세지 관련된 공통 전략을 편리하게 도입 가능
+        - 중요한 메세지는 필요할 때 구체적으로 적어서 사용하는 방식이 효과적

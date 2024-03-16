@@ -10,6 +10,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -168,6 +169,8 @@ public class ValidationItemControllerV2 {
 
     @PostMapping("/add")
     public String addItemV4(@ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+
+        // ValidationUtils.rejectIfEmptyOrWhitespace(bindingResult, "itemName", "required"); // 간단한 공백 등 validation은 해당 util로 처리 가능
 
         //rejectValue : MessageCodesResolver를 통해 축약된 오류코드를 사용해 오류 메시지를 찾음
 
