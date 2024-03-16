@@ -25,6 +25,7 @@ import java.util.Map;
 public class ValidationItemControllerV2 {
 
     private final ItemRepository itemRepository;
+    private final ItemValidator itemValidator;
 
     @GetMapping
     public String items(Model model) {
@@ -167,7 +168,7 @@ public class ValidationItemControllerV2 {
         return "redirect:/validation/v2/items/{itemId}";
     }
 
-    @PostMapping("/add")
+    //@PostMapping("/add")
     public String addItemV4(@ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         // ValidationUtils.rejectIfEmptyOrWhitespace(bindingResult, "itemName", "required"); // 간단한 공백 등 validation은 해당 util로 처리 가능
@@ -207,6 +208,25 @@ public class ValidationItemControllerV2 {
             log.info("bindingResult = {}", bindingResult);
             //bindingResult는 자동으로 view에 넘어가기 때문에 addAttribute 생략
             //model.addAttribute("errors", errors);
+            return "validation/v2/addForm";
+        }
+
+        Item savedItem = itemRepository.save(item);
+        redirectAttributes.addAttribute("itemId", savedItem.getId());
+        redirectAttributes.addAttribute("status", true);
+        return "redirect:/validation/v2/items/{itemId}";
+    }
+
+    @PostMapping("/add")
+    public String addItemV5(@ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+
+        if(itemValidator.supports(item.getClass())) {
+            itemValidator.validate(item, bindingResult);
+        }
+
+        //검증에 실패하면(에러가 있으면) 다시 입력 폼으로 이동
+        if(bindingResult.hasErrors()) {
+            log.info("bindingResult = {}", bindingResult);
             return "validation/v2/addForm";
         }
 
