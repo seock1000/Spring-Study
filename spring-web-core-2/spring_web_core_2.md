@@ -296,3 +296,20 @@
         - 전달받은 데이터의 type이 맞지 않는 경우 스프링이 자동으로 만들어주는 오류 코드
         - errors.properties에 typeMismatch로 오류 메세지 세팅해주는 것으로 핸들링 가능
         - 소스코드를 건들지 않고 원하는 메시지를 단계별 설정 가능
+    
+    - Validator
+        - 스프링이 제공하는 인터페이스인 Validator를 사용하면 추가적인 도움을 받을 수 있음
+        - WebDataBinder 파라미터로 받는 @InitBinder 메서드를 생성하여 WebDataBinder에 validator를 추가 -> 컨트롤러가 호출될 때 항상 해당 validator가 호출됨
+        - 검증기를 등록하고 @Validated 어노테이션을 붙여서 등록한 검증기를 통해 검증
+            - 여러 검증기가 등록된 경우 어떤 검증기가 실행 되어야 할지 구분 필요 -> supports() 메서드로
+        - WebMvcConfigurer
+            - 인터페이스의 getValidator() 메서드를 구현하여 글로벌하게 적용 가능
+    
+##### BeanValidation
+    - 특정 필드에 대한 검증 로직은 대체로 일반적인 로직
+    - 검증 로직을 모든 프로젝트에 적용할 수 있게 공통화 및 표준화 한것 -> Bean Validation
+        - 애노테이션 기반을 검증로직 편리하게 적용 가능
+    - Bean Validation
+        - Bean Validation은 인터페이스로 구현체는 선택하여 적용
+        - 자주 사용하는 구현체는 하이버네이트 Validator
+    
