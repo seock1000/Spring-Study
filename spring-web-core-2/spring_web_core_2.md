@@ -312,4 +312,14 @@
     - Bean Validation
         - Bean Validation은 인터페이스로 구현체는 선택하여 적용
         - 자주 사용하는 구현체는 하이버네이트 Validator
-    
+    - 스프링 부트가 Bean Validator를 자롱을 사용하는 방법
+        - spring-boot-starter-validation 라이브러리를 넣으면 자동으로 Bean Validator를 인식 및 통합
+        - LocalValidatorFactoryBean을 글로벌 Validator로 등록
+            - @NotNull 같은 애노테이션을 보고 검증 수행
+            - @Valid, @Validated 적용해야 해당 객체를 검증
+        - 검증 순서
+            1. @ModelAttribute 각각의 필드에 타입 변환 시도
+                - 성공시 다음으로
+                - 실패 시 typeMismatch로 FieldError 추가
+            2. Validator 적용
+            - 즉, 타입 변환에 성공해야만 BeanValidation 적용이 의미있기 때문에 타입변환 성공한 필드만 BeanValidation 적용
