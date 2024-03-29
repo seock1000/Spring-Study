@@ -19,6 +19,7 @@
     </div>
 
     <form action="item.html" th:action th:object="${item}" method="post">
+
         <div>
             <label for="id" th:text="#{label.item.id}">상품 ID</label>
             <input type="text" id="id" th:field="*{id}" class="form-control" readonly>
