@@ -323,3 +323,15 @@
                 - 실패 시 typeMismatch로 FieldError 추가
             2. Validator 적용
             - 즉, 타입 변환에 성공해야만 BeanValidation 적용이 의미있기 때문에 타입변환 성공한 필드만 BeanValidation 적용
+    - 한계
+        - 같은 객체에 대한 validation 규칙이 상황에 따라 달라지는 경우 ex) 수정할 때와 등록할 때의 규칙이 다를 때
+            - 둘 중 한쪽은 Validation에서 문제가 발생
+        - 해결방법
+            1. groups
+                - BeanValidation 제공 기능
+                - group으로 묶어 조건을 다르게 적용하는 기술
+                - @Valid에는 사용 불가능, @Validated 사용해야 사용 가능
+                - 복잡도 증가 + 주로 실무에서는 요청마다 DTO를 정의해서 사용하기 때문에 거의 사용 X
+            2. 별도의 모델 객체로 분리
+                - ItemSaveForm, ItemEditForm 과 같이 별도로 폼을 분리하여 사용
+            
