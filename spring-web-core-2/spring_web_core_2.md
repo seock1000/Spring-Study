@@ -334,4 +334,15 @@
                 - 복잡도 증가 + 주로 실무에서는 요청마다 DTO를 정의해서 사용하기 때문에 거의 사용 X
             2. 별도의 모델 객체로 분리
                 - ItemSaveForm, ItemEditForm 과 같이 별도로 폼을 분리하여 사용
-            
+                - 실무에서 주로 사용
+                    - 보통 요청으로 전달받는 데이터와 도메인 객체가 딱 맞는 경우는 없기 때문
+                    - 요청으로 전달받은 데이터에서 필요한 데이터를 사용하여 도메인 객체를 구성
+                - 별도의 객체 사용 flow
+                    - HTML Form -> ItemSaveForm -> Controller -> Item 생성 -> Repository
+                    - form 데이터를 기반을 Item 객체를 생성하는 변환 과정 수행 필요
+
+    - HTTP 메시지 컨버터
+        - @ModelAttribute는 Http 요청 파라미터를 다룰 때 사용(쿼리 스트링, HTML Form 데이터 등)
+        - @ReqeustBody 는 Http body의 데이터를 그대로 객체로 바꿀 때 사용
+        - @RequestBody의 경우 HTTP 메세지를 변환하여 객체로 만들어야 하는데, type mismatch(int에 string 데이터 등)의 경우에 전달할 객체를 만들지 못해 컨트롤러 호출 자체가 안됨 -> bindingResult를 통한 에러 컨트롤 불가능
+        - @ModelAttribute는 Http 요청 파라미터를 처리할 때 각 필드 단위로 세밀하게 적용되기 때문에 특정 필드에 맞지 않는 요청이어도 나머지 필드는 정상처리가 가능하여 validator 적용 가능
