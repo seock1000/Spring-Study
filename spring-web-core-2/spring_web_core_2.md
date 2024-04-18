@@ -445,3 +445,50 @@
                 - HttpServletResponse가 제공하는 sendError 메서드를 사용하여 서블릿 컨테이너에게 오류 발생 정보를 전달
                 - WAS(sendError 호출 기록 확인) <- 필터 <- 서블릿 <- 인터셉터 <- 컨트롤러(response.sendError())
                     - response.sendError() 호출 시 resposne 내부에 오류발생 상태 정보를 저장, 서블릿 컨테이너는 응답 이전에 response에 sendError() 호출 여부를 확인하고 호출 되었다면 설정 오류 코드에 맞춰 기본 오류페이지를 보여줌
+        - 서블릿 오류 화면 제공
+            - 서블릿 컨테이너의 기본 예외 화면은 고객친화적이지 않음
+            - 스프링부트를 통해 서블릿 컨테이너를 실행하는 경우 스프링부트 제공 기능을 통해 서블릿 오류 페이지 등록 가능
+            - 오류 페이지 작동 원리
+                - 서블릿은 Exception 발생 또는 sendError() 호출 시 설정된 오류 페이지 탐색
+                - WAS는 예외 처리 오류 페이지 화면을 탐색 후 오류 페이지가 존재하면 해당 페이지를 다시 호출
+                - 오류 페이지 요청 흐름
+                    - WAS : 지정된 오류페이지 다시 요청 -> 필터 -> 서블릿 -> 인터셉터 -> 컨트롤러(지정 오류페이지 컨트롤러) -> View
+                    - 웹 브라우저에선 이러한 과정 인지 X, 서버 내부에서 오류 페이지 탐색을 위한 추가적인 요청이 발생하는 것
+                    - 오류 페이지 요청을 위해 해당 경로롤 필터, 서블릿, 인터셉터, 컨트롤러가 모두 다시 호출됨
+        - 서블릿 예외처리 : 필터
+            - WAS에서 오류일 경우 다시 요청할 때, 필터 인터셉터가 다시 호출되는 것은 비효율적
+            - 필터는 이런 경우를 위해 dispatcherTypes라는 옵션 제공
+                -  dispatcherType : 실제 고객 요청인지 서버 내부에서 오류페이지 요청인지 구분을 위한 옵션
+                    - dispatcherType=REQUEST : 고객 요청
+                    - dispatcherType=ERROR : 서버 내부의 에러페이지 요청
+                    - dispatcherType=INCLUDE : 서블릿에서 다른 서블릿이나 JSP의 결과를 포함할 때
+                    - dispatcherType=ASYNC : 서블릿 비동기 호출
+        
+        - 스프링부트 예외처리
+            - 스프링부트 기본 제공 기능
+                - ErrorPage 자동 등록
+                    - /error 경로를 기본 오류 페이지로 설정 및
+                    - new ErrorPage("/error")
+                - BasicErrorController 자동 등록
+                    - /error를 매핑하여 처리하는 컨트롤러
+                - 개발자는 뷰 템플릿에 오류페이지를 등록만 하면 됨
+            - BasicErrorController는 하기의 정보를 model에 담아 뷰에 전달
+                ```
+                * timestamp: Fri Feb 05 00:00:00 KST 2021
+                * status: 400
+                * error: Bad Request
+                * exception: org.springframework.validation.BindException
+                * trace: 예외 trace
+                * message: Validation failed for object='data'. Error count: 1
+                * errors: Errors(BindingResult)
+                * path: 클라이언트 요청 경로 (`/hello`)
+                ```
+###### API 예외처리
+    - API는 각 오류 상황의 오류 응답 스펙을 지정하고 JSON 데이터를 내려주어야 함
+        - 뷰템플릿에서보다 복잡
+    - BasicErrorController
+        - 요청 헤더의 Accept-Type에 따라 다른 스펙의 컨트롤러가 처리
+            - text/html의 경우 errorPage HTML로 내려줌
+            - application/json의 경우 json으로 메세지를 내려줌
+        - BasicErrorController를 확장(오버라이드)하면 JSON 메시지 변경 가능
+        - 그러나, @ExceptionHandler를 사용하는 것이 더 나은 방법이므로 참고만!
