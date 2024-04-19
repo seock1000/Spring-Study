@@ -492,3 +492,21 @@
             - application/json의 경우 json으로 메세지를 내려줌
         - BasicErrorController를 확장(오버라이드)하면 JSON 메시지 변경 가능
         - 그러나, @ExceptionHandler를 사용하는 것이 더 나은 방법이므로 참고만!
+    - HandleExceptionResolver
+        - 예외 발생으로 서블릿을 넘어 WAS까지 예외 전달되면 -> 500 error
+        - 예외에 따라 400, 404 등의 다른 상태코드로 처리하고 싶을 때 ExceptionResolver 사용
+        - 예외가 발생할 때, afterCompletion 호출 이전에 ExceptionResolver 호출하여 예외 해결 시도 -> 예외 해결 후 정상 응답으로 처리 가능
+            - 단, 예외 발생 시에는 예외 해결이 되더라도 postHandle은 호출 X
+        - ModelAndView 리턴 시
+            - 빈 ModelAndView 리턴 : 뷰를 랜더링 하지 않고 정상흐름을 서블릿 리턴
+            - ModelAndView 지정 : 지정한 뷰를 랜더링
+        - null 반환 시
+            - 다음 ExceptionHandler를 찾고 처리가 안될 시엔 기존 발생한 예외를 서블릿 밖으로 던짐
+        - 활용
+            - 예외 상태 코드 변환
+                - response.sendError()를 활용하여 예외 상태코드를 변환
+            - 뷰 템플릿 처리
+                - ModelAndView에 값을 채워 예외에 따른 새로운 오류 화면 뷰랜더링으로 고객에 제공
+            - API 응답 처리
+                - response.getWriter().println()으로 응답 바디에 직접 데이터 삽입 가능 -> JSON 형식으로 처리도 가능
+        - (중요)ExceptionResolver를 사용하면 컨트롤러에서 예외가 발생하더라도 ExceptionResolver에서 예외를 처리하므로, 서블릿까지 전달되지 않고 스프링 MVC에서 예외처리가 종료 -> 결과적으로 WAS에서는 정상처리, 예외를 모두 Resolver에서 처리
