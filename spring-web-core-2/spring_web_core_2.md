@@ -510,3 +510,17 @@
             - API 응답 처리
                 - response.getWriter().println()으로 응답 바디에 직접 데이터 삽입 가능 -> JSON 형식으로 처리도 가능
         - (중요)ExceptionResolver를 사용하면 컨트롤러에서 예외가 발생하더라도 ExceptionResolver에서 예외를 처리하므로, 서블릿까지 전달되지 않고 스프링 MVC에서 예외처리가 종료 -> 결과적으로 WAS에서는 정상처리, 예외를 모두 Resolver에서 처리
+    
+    - 스프링 제공 ExceptionResolver
+        - 우선순위 순서로
+            1. ExceptionHandlerExceptionResolver
+                - @ExceptionHandler를 처리, 대부분의 API 예외처리 해결
+            2. ResponseStatusExceptionResolver
+                - 예외에 따라 HTTP 상태코드 지정
+                - 예시) @ResponseStatus(value = HttpStauts_NOT_FOUND)
+                - 두 가지 경우 처리
+                    - @ResposneStatus가 달려있는 예외
+                    - ResponsStatusException 예외
+            3. DefaultHandlerExceptionResolver
+                - 스프링 내부 기본 예외 처리
+        
