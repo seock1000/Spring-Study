@@ -523,4 +523,11 @@
                     - ResponsStatusException 예외
             3. DefaultHandlerExceptionResolver
                 - 스프링 내부 기본 예외 처리
+                - TypeMismatchException 등의 스프링 내부 오류를 어떻게 처리할 지 정의
+                    - ex) TypeMismatchException이 처리되지 않으면 서블릿까지 전파되어 500 에러이나, 이러한 것을 처리하여 400 에러 등으로 적절하게 처리
+                - 등록 등이 필요없이 스프링 기본 기능으로 처리
+        - @ExceptionHandler
+            - ResponseStatusExceptionResolver와 DefaultHandlerExceptionResolver는 API 예외 처리에 부적합
+                - 빈 ModelAndView를 반환
+                - 때문에, 에러메세지 커스텀이 어려움
         
