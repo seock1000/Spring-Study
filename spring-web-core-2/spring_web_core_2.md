@@ -530,4 +530,25 @@
             - ResponseStatusExceptionResolver와 DefaultHandlerExceptionResolver는 API 예외 처리에 부적합
                 - 빈 ModelAndView를 반환
                 - 때문에, 에러메세지 커스텀이 어려움
+                    - API 응답을 위해 서블릿 리스폰스에 직접 응답 데이터 넣어야 함
+            - API는 세밀한 제어가 필요
+                - 시스템마다 응답의 모양, 스펙 등이 모두 상이
+                - 예외에 따라 각각 다른 데이터 출력 필요할 수도
+            - @ExceptionHandler
+                - API 예외를 편리하게 처리하기 위한 어노테이션
+                - 실무에서 주로 사용되는 예외처리 방식
+                - 해당 컨트롤러에서 발생한 예외를 잡아서 ExceptionHandler가 처리
+                - 예외처리 방법
+                    - @ExceptionHandler 어노테이션을 선언하고 해당 컨트롤러에서 처리하고 싶은 예외 지정
+                        - @ExceptionHandler(Exception.class)
+                        -지정한 예외와 그 자식 클래스는 모두 잡음
+                    - 더 자세한 것이 우선 순위 높음
+                        - 자식클래스 ExceptionHandler와 부모클래스 ExceptionHandler가 존재하면 자식 클래스(자세한 것)부터 호출
+                    - 다양한 예외 처리 가능
+                        - @ExceptionHandler({AException.class, BException.class})
+                    - 예외 생략
+                        - 예외를 생략하는 경우 메서드 파라미터의 예외로 지정
+                    - 파라미터와 응답
+                        - 다양한 파라미터와 응답 지정 가능
+                        - 잘 만듦
         
