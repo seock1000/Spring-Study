@@ -11,6 +11,7 @@ public class MemberServiceV1 {
 
     private final MemberRepositoryV1 memberRepository;
 
+    // 순수한 비즈니스 로직만 존재
     public void accountTransfer(String fromId, String toId, int money) throws SQLException {
         Member fromMember = memberRepository.findById(fromId);
         Member toMember = memberRepository.findById(toId);

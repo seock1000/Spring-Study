@@ -20,6 +20,8 @@ public class MemberServiceV2 {
     private final DataSource dataSource;
     private final MemberRepositoryV2 memberRepository;
 
+    // 트랜잭션 처리를 위해 JDBC 기술에 의존
+    // 트랜잭션 처리 코드는 데이터 접근 기술 마다 상 -> JDBC에서 다른 데이터 접근 기술로 변경 시 수정 필요
     public void accountTransfer(String fromId, String toId, int money) throws SQLException {
         Connection con = dataSource.getConnection();
         try {
